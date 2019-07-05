@@ -10,7 +10,13 @@ const sendEmail = (params) => {
       pass: 'EQMZ1vCb78a4Q4vvZJ'
     }
   })
-  return transporter.sendMail(params)
+  return transporter
+    .sendMail(params)
+    .then((info) => {
+      console.log('Message sent: %s', info.messageId)
+      console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info))
+      return info
+    })
 }
 
 const fileDir = `${__dirname}/files/C3PO-Batman.png`
@@ -31,7 +37,6 @@ const emailParams = {
 
 sendEmail(emailParams)
   .then((info) => {
-    console.log('Message sent: %s', info.messageId)
-    console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info))
+    console.log('info ===>', info)
   })
   .catch(console.error)
